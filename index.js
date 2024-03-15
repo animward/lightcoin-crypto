@@ -12,6 +12,17 @@ class Withdrawal {
 
 }
 
+const account = { balance: balance };
+var t1 = new Withdrawal(50.25);
+t1.commit(account);
+console.log('Transaction 1:', t1);
+
+var t2 = new Withdrawal(9.99);
+t2.commit(account);
+console.log('Transaction 2:', t2);
+
+console.log('Balance:', balance);
+
 
 
 
