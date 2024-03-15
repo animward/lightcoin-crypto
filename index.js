@@ -1,55 +1,49 @@
-let balance = 500.00;
-console.log('Starting Balance:', balance); 
+class Account {
+  constructor(username) {
+    this.username = username;
+    this.balance = 0;
+  }
+}
+
+
+const myAccount = new Account('Steve Jobs');
+console.log('Starting Balance:', myAccount.balance); 
 
 class Deposit {
-  constructor(amount) {
+  constructor(amount, account) {
     this.amount = amount;
+    this.account = account;
   }
 
-  commit(account) {
-    account.balance += this.amount;
+  commit() {
+    this.account.balance += this.amount;
   }
 };
 
 class Withdrawal {
 
-  constructor(amount) {
+  constructor(amount, account) {
     this.amount = amount;
+    this.account = account;
   }
 
   commit() {
-    balance -= this.amount;
+    this.account.balance -= this.amount;
   }
 
 };
 
-const account = { balance: balance };
-var t1 = new Withdrawal(50.25);
-t1.commit(account);
-console.log('Transaction 1:', t1);
 
-var t2 = new Withdrawal(9.99);
-t2.commit(account);
-console.log('Transaction 2:', t2);
-
-var t3 = new Deposit(120.00);
-t3.commit(account);
-console.log('Transaction 3:', t3);
-
-console.log('Balance:', balance);
-
-
-
-
-// DRIVER CODE BELOW
-// We use the code below to "drive" the application logic above and make sure it's working as expected
-
-t1 = new Withdrawal(50.25);
+var t1 = new Withdrawal(50.25, myAccount);
 t1.commit();
 console.log('Transaction 1:', t1);
 
-t2 = new Withdrawal(9.99);
+var t2 = new Withdrawal(9.99, myAccount);
 t2.commit();
 console.log('Transaction 2:', t2);
 
-console.log('Balance:', balance);
+var t3 = new Deposit(120.00, myAccount);
+t3.commit();
+console.log('Transaction 3:', t3);
+
+console.log('Balance:', myAccount.balance);
