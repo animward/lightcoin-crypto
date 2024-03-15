@@ -1,32 +1,49 @@
-class Account {
-  constructor(username) {
-    this.username = username;
-    this.balance = 0;
-  }
-}
-
-
-const myAccount = new Account('Steve Jobs');
-console.log('Starting Balance:', myAccount.balance); 
-
 class Transaction {
   constructor(amount, account) {
     this.amount = amount;
     this.account = account;
+    this.time = new Date();
+  }
+
+commit() {
+  this.account.addTransaction(this);
+}
+
+}
+
+class Account {
+  constructor(username) {
+    this.username = username;
+    this.transactions = [];
+  }
+
+  get balance() {
+    return this.transactions.reduce((acc, transaction) => {
+      return acc + transaction.amount;
+    }, 0);
+
+  }
+
+  addTransaction(transaction) {
+    this.transactions.push(transaction);
   }
 }
 
+
 class Deposit extends Transaction {
   commit() {
-    this.account.balance += this.amount;
+    super.commit();
   }
 }
 
 class Withdrawal extends Transaction {
   commit() {
-    this.account.balance -= this.amount;
+    super.commit();
   }
 }
+
+const myAccount = new Account('Steve Jobs');
+console.log('Starting Balance:', myAccount.balance);
 
 var t1 = new Withdrawal(50.25, myAccount);
 t1.commit();
