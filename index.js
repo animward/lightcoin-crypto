@@ -6,7 +6,16 @@ class Transaction {
   }
 
 commit() {
-  this.account.addTransaction(this);
+  if (!this.isAllowed()) {
+    this.account.addTransaction(this);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+isAllowed() {
+  return true;
 }
 
 }
@@ -32,15 +41,27 @@ class Account {
 
 class Deposit extends Transaction {
   commit() {
+    this.account.addTransaction(this);
     super.commit();
   }
 }
 
 class Withdrawal extends Transaction {
-  commit() {
-    super.commit();
+  isAllowed() {
+    return this.account.balance - this.amount >= 0;
   }
+
+  commit() {
+    if (super.commit()) {
+      this.account.addTransaction(this);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
+
 
 const myAccount = new Account('Steve Jobs');
 console.log('Starting Balance:', myAccount.balance);
