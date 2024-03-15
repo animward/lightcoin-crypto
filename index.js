@@ -9,30 +9,24 @@ class Account {
 const myAccount = new Account('Steve Jobs');
 console.log('Starting Balance:', myAccount.balance); 
 
-class Deposit {
+class Transaction {
   constructor(amount, account) {
     this.amount = amount;
     this.account = account;
   }
+}
 
+class Deposit extends Transaction {
   commit() {
     this.account.balance += this.amount;
   }
-};
+}
 
-class Withdrawal {
-
-  constructor(amount, account) {
-    this.amount = amount;
-    this.account = account;
-  }
-
+class Withdrawal extends Transaction {
   commit() {
     this.account.balance -= this.amount;
   }
-
-};
-
+}
 
 var t1 = new Withdrawal(50.25, myAccount);
 t1.commit();
